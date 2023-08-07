@@ -1,41 +1,60 @@
-import csv
+#create file path across operating systems 
 import os 
+import csv
 
-csvpath = os.path.join("PyBank/Resources/budget_data.csv")
 
-with open(csvpath, 'r') as csvfile:
-    
+csvpath = os.path.join('PyBank/Resources/budget_data.csv')
+with open(csvpath,'r') as csvfile:
+    csvreader = csv.reader(csvfile,delimiter = ',')
 
-    csvreader = csv.reader(csvfile, delimiter=",")
-    
-    print(csvreader)
+    #skip header 
+    header = next(csvreader)
 
-    csv_header = next(csvreader)
+    #create empty lists to add csv values
+    num_of_months = []
+    profit_loss = []
+    change_profit_loss = []
 
-    print("Header row:" + str(csv_header))
-
+    #run through values and add to empty list
     for row in csvreader:
-        print(row)
-     
-total_months = []
-total_profits = []
-profit_changes = 0
-monthly_changes =0
-previous_value = 0  
-   
-   
-   
+        num_of_months.append(row[0])
+        profit_loss.append(int(row[1]))
+    for x in range(len(profit_loss)-1):
+        change_profit_loss.append(profit_loss[x+1]-profit_loss[x])
+
+#Determine max and min from list
+increase = max(change_profit_loss)
+decrease = min(change_profit_loss)
+
+#Determine greatest increase and decrease by using index
+greatest_increase = change_profit_loss.index(max(change_profit_loss))+1
+greatest_decrease = change_profit_loss.index(min(change_profit_loss))+1
+
+#Print Data 
 print("Financial Analysis")
-print("----------------------------------")
+print("-----------------------------")
+print(f"Total Months: {len(num_of_months)}")
+print(f"Total: ${sum(profit_loss)}")
+print(f"Average Change: {round(sum(change_profit_loss)/len(change_profit_loss),2)}")
+print(f"Greatest Increase in Porfits: {num_of_months[greatest_increase]} (${(str(increase))})")
+print(f"Greatest Decrease in Profits: {num_of_months[greatest_decrease]} (${(str(decrease))})")
 
-total_months.append(row[0])
-total_profits.append(row[1])
-
-
-
-
-
-
+#Export Data 
+export = os.path.join('PyBank/Analysis/export.txt')
+with open(export,"w") as f:
+    f.write("Financial Analysis")
+    f.write("\n")
+    f.write("-----------------------------")
+    f.write("\n")
+    f.write(f"Total Months: {len(num_of_months)}")
+    f.write("\n")
+    f.write(f"Total: ${sum(profit_loss)}")
+    f.write("\n")
+    f.write(f"Average Change: {round(sum(change_profit_loss)/len(change_profit_loss),2)}")
+    f.write("\n")
+    f.write(f"Greatest Increase in Profits: {num_of_months[greatest_increase]} (${(str(increase))})")
+    f.write("\n")
+    f.write(f"Greatest Decrease in Profits: {num_of_months[greatest_decrease]} (${(str(decrease))})")
 
 
 
