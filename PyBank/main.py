@@ -36,7 +36,7 @@ print("-----------------------------")
 print(f"Total Months: {len(num_of_months)}")
 print(f"Total: ${sum(profit_loss)}")
 print(f"Average Change: {round(sum(change_profit_loss)/len(change_profit_loss),2)}")
-print(f"Greatest Increase in Porfits: {num_of_months[greatest_increase]} (${(str(increase))})")
+print(f"Greatest Increase in Profits: {num_of_months[greatest_increase]} (${(str(increase))})")
 print(f"Greatest Decrease in Profits: {num_of_months[greatest_decrease]} (${(str(decrease))})")
 
 #Export Data 
